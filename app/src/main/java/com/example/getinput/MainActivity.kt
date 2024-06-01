@@ -37,19 +37,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun calculateNumber(name: String): Int {
-        return name.sumOf { charToNumber(it) }
+    fun calculateNumber(name: String): Pair<Int, Int> {
+        val totalNumber = name.sumOf { charToNumber(it) }
+        val characterCount = name.count { it.isLetter() }
+        return Pair(totalNumber, characterCount)
     }
-
 
     fun updateText(view: View) {
         val editText = findViewById<EditText>(R.id.InputText)
         val textView = findViewById<TextView>(R.id.textView)
         val name = editText.text.toString()
-        val totalNumber = calculateNumber(name)
-        val fortune = getFortune(totalNumber)
+        val (totalNumber, characterCount) = calculateNumber(name)
+        val finalNumber = if (characterCount > 0) totalNumber / characterCount else 0
+        val fortune = getFortune(finalNumber)
         textView.text = fortune
     }
+
 
 
     fun getFortune(number: Int): String {
@@ -63,8 +66,8 @@ class MainActivity : AppCompatActivity() {
             7 -> "Strong"
             8 -> "Handsome"
             9 -> "Gay"
-            10 -> "Big Dick"
-            11 -> "Black"
+            10 -> "Get a new car"
+            11 -> "Get a new motor"
             12 -> "White"
             13 -> "Curly Hair"
             14 -> "Jaw line"
