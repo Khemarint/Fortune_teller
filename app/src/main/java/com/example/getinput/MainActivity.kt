@@ -37,18 +37,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun calculateNumber(name: String): Pair<Int, Int> {
+    fun calculateNumber(name: String): Int {
         val totalNumber = name.sumOf { charToNumber(it) }
         val characterCount = name.count { it.isLetter() }
-        return Pair(totalNumber, characterCount)
+        return if (characterCount > 0) totalNumber / characterCount else 0
     }
 
     fun updateText(view: View) {
         val editText = findViewById<EditText>(R.id.InputText)
         val textView = findViewById<TextView>(R.id.textView)
-        val name = editText.text.toString()
-        val (totalNumber, characterCount) = calculateNumber(name)
-        val finalNumber = if (characterCount > 0) totalNumber / characterCount else 0
+        val name = editText.text.toString().filter { it.isLetter() }
+        val finalNumber = calculateNumber(name)
         val fortune = getFortune(finalNumber)
         textView.text = fortune
     }
@@ -85,7 +84,6 @@ class MainActivity : AppCompatActivity() {
             26 -> "Every dream come true"
             27 -> "Safe Travel"
             28 -> "Kung fu inside"
-            // Add cases 4 to 28 here
             29 -> "A thrilling adventure awaits you."
             30 -> "You will discover a hidden talent within yourself."
             else -> "The stars are not clear on your fortune. Try again."
